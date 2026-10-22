@@ -22,7 +22,7 @@ Newer version of ArchaicFix only require a GTNHMixins-compatible mixin loader. I
 ## Compatibility notes
 
 * ArchaicFix is not compatible with versions of GG Util that include threaded lighting. You may use the [fixed version](https://www.curseforge.com/minecraft/mc-mods/gilded-game-utils-fix) instead.
-* Crucible/Thermos/etc. are not supported. (https://github.com/embeddedt/ArchaicFix/issues/34)
+* ~~Crucible/Thermos/etc. are not supported. (https://github.com/embeddedt/ArchaicFix/issues/34)~~
 
 ## List of tweaks/bugfixes
 
