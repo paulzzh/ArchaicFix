@@ -81,32 +81,6 @@ public abstract class MixinWorld {
 
     private Set<String> entityOptimizationIgnoreSet = null;
 
-    @Inject(method = "updateEntityWithOptionalForce", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;lastTickPosX:D", ordinal = 0), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private void skipUpdateIfOptimizing(Entity entity, boolean force, CallbackInfo ci, int chunkX, int chunkZ, boolean isInForcedChunk) {
-        if(!ArchaicConfig.optimizeEntityTicking)
-            return;
-        if (isRemote || isInForcedChunk || !(entity instanceof EntityLivingBase) || entity instanceof EntityPlayer || !entity.addedToChunk) {
-            return;
-        }
-        if(entityOptimizationIgnoreSet == null)
-            entityOptimizationIgnoreSet = ImmutableSet.copyOf(ArchaicConfig.optimizeEntityTickingIgnoreList);
-        if(entityOptimizationIgnoreSet.contains(EntityList.getEntityString(entity)))
-            return;
-        double finalDist = Double.MAX_VALUE;
-        for(EntityPlayer player : (List<EntityPlayer>)entity.worldObj.playerEntities) {
-            finalDist = Math.min(finalDist, player.getDistanceSq(entity.posX, entity.posY, entity.posZ));
-            if(finalDist <= ArchaicConfig.optimizeEntityTickingDistance)
-                break;
-        }
-        if(((EntityLivingBase)entity).deathTime <= 0 && finalDist > ArchaicConfig.optimizeEntityTickingDistance) {
-            if(entity instanceof EntityLiving && ((AccessorEntityLiving)entity).invokeCanDespawn()) {
-                /* Despawn even if outside the ticking range */
-                ((AccessorEntityLiving)entity).invokeDespawnEntity();
-            }
-            ci.cancel();
-        }
-    }
-
     @Inject(method = "setActivePlayerChunksAndCheckLight", at = @At("TAIL"))
     private void saveInactiveChunks(CallbackInfo ci) {
         if(this.isRemote || ArchaicConfig.optimizeBlockTickingDistance <= 0)
