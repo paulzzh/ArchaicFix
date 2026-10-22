@@ -14,24 +14,6 @@ import javax.annotation.Nonnull;
 @RequiredArgsConstructor
 public enum Mixin implements IMixins {
 
-    MINECRAFT(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)),
-    RECIPE_CACHING(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.cacheRecipes)),
-    PHOSPHOR(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.enablePhosphor)
-            .addExcludedMod(TargetedMod.SUPERNOVA)),
-    PHOSPHOR_NO_CHUNKAPI(new ArchaicBuilder()
-            .setPhase(Phase.LATE)
-            .setApplyIf(() -> ArchaicConfig.enablePhosphor && !Loader.isModLoaded(TargetedMod.CHUNKAPI.ModID()))
-            .addExcludedMod(TargetedMod.SUPERNOVA)),
-    PHOSPHOR_FASTCRAFT(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.enablePhosphor)
-            .addRequiredMod(TargetedMod.FASTCRAFT)
-            .addExcludedMod(TargetedMod.SUPERNOVA)),
     GREGTECH6(new ArchaicBuilder()
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.GREGTECH6)
@@ -39,10 +21,6 @@ public enum Mixin implements IMixins {
                     "gt6.MixinAdvancedCraftingXToY",
                     "gt6.MixinGT6_Main",
                     "gt6.MixinCR")),
-
-    RACE_CONDITION_LOGGING(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.fixLoginRaceCondition)),
 
     MATTER_OVERDRIVE(new ArchaicBuilder()
             .setPhase(Phase.LATE)
@@ -83,33 +61,10 @@ public enum Mixin implements IMixins {
                     "extrautils.MixinItemDivisionSigil",
                     "extrautils.MixinTileEntityTrashCan")),
 
-    WORLD_UPDATE_ENTITIES(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .addExcludedMod(TargetedMod.HODGEPODGE)),
-
-    ITEM_LAG_REDUCTION(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .addExcludedMod(TargetedMod.SHIPSMOD)
-            .setApplyIf(() -> ArchaicConfig.itemLagReduction)),
-
-    CANONICALIZE_ASMDATA_TABLE(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.canonicalizeASMDataTable)),
-    CANONICALIZE_ASMDATA_TABLE_NOCOFH(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.canonicalizeASMDataTable)
-            .addExcludedMod(TargetedMod.COFHCORE)),
-
     chickenchunks_MixinPlayerChunkViewerManager(new ArchaicBuilder()
             .addCommonMixins("chickenchunks.MixinPlayerChunkViewerManager")
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.CHICKENCHUNKS)),
-    core_MixinEntityLivingBase_EarlyXpDrop(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.dropXpImmediatelyOnDeath)),
-    core_MixinSwampHut(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.fixEntityStructurePersistence)),
     mrtjp_MixinBlockUpdateHandler(new ArchaicBuilder()
             .addCommonMixins("mrtjp.MixinBlockUpdateHandler")
             .setPhase(Phase.LATE)
@@ -122,24 +77,6 @@ public enum Mixin implements IMixins {
             .addCommonMixins("thermal.MixinTECraftingHandler")
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.THERMALEXPANSION)),
-
-    // CLIENT MIXINS,
-    core_MixinSkinManager(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.fixSkinMemoryLeak)),
-    core_MixinWorldRenderer(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> !Boolean.parseBoolean(System.getProperty("archaicFix.disableMC129", "false")))),
-    core_MixinRenderItem(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .setApplyIf(() -> ArchaicConfig.forceFancyItems)),
-    divinerpg_MixinEntitySparkler(new ArchaicBuilder()
-            .setPhase(Phase.LATE)
-            .addRequiredMod(TargetedMod.DIVINERPG)),
-    optifine_MixinVersionCheckThread(new ArchaicBuilder()
-            .setPhase(Phase.EARLY)
-            .addRequiredMod(TargetedMod.OPTIFINE)
-            .setApplyIf(() -> ArchaicConfig.disableOFVersionCheck)),
 
     // MOD-FILTERED MIXINS
     mekanism_MixinGenHandler(new ArchaicBuilder()
@@ -154,13 +91,6 @@ public enum Mixin implements IMixins {
             .addCommonMixins("botania.MixinBlockSpecialFlower")
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.BOTANIA)),
-    journeymap_MixinTileDrawStep(new ArchaicBuilder()
-            .setPhase(Phase.LATE)
-            .addRequiredMod(TargetedMod.JOURNEYMAP)
-            .setApplyIf(() -> ArchaicConfig.removeJourneymapDebug)),
-    aoa_MixinProjectileEntities(new ArchaicBuilder()
-            .setPhase(Phase.LATE)
-            .addRequiredMod(TargetedMod.ADVENT_OF_ASCENSION)),
     am2_MixinPlayerTracker(new ArchaicBuilder()
             .addCommonMixins("am2.MixinPlayerTracker")
             .setPhase(Phase.LATE)
@@ -174,10 +104,6 @@ public enum Mixin implements IMixins {
             .addCommonMixins("waystones.MixinItemWarpStone")
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.WAYSTONES)),
-    ae2_MixinNEIItemRender(new ArchaicBuilder()
-            .setPhase(Phase.LATE)
-            .addRequiredMod(TargetedMod.AE2)
-            .setApplyIf(() -> ArchaicConfig.disableAE2NEIItemRendering)),
     /** This mixin will ostensibly be unnecessary after DragonAPI V31b */
     dragonapi_MixinReikaWorldHelper(new ArchaicBuilder()
             .addCommonMixins("dragonapi.MixinReikaWorldHelper")
