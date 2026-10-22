@@ -73,14 +73,6 @@ public enum Mixin implements IMixins {
             .setPhase(Phase.EARLY)
             .setApplyIf(() -> ArchaicConfig.enablePhosphor)
             .addExcludedMod(TargetedMod.SUPERNOVA)
-            .addCommonMixins(
-                    "lighting.MixinAnvilChunkLoader",
-                    "lighting.MixinChunk",
-                    "lighting.MixinChunkProviderServer",
-                    "lighting.MixinChunkVanilla",
-                    "lighting.MixinExtendedBlockStorage",
-                    "lighting.MixinSPacketChunkData",
-                    "lighting.MixinWorld_Lighting")
             .addClientMixins(
                     "lighting.MixinMinecraft",
                     "lighting.MixinWorld",
@@ -88,17 +80,12 @@ public enum Mixin implements IMixins {
     PHOSPHOR_NO_CHUNKAPI(new ArchaicBuilder()
             .setPhase(Phase.LATE)
             .setApplyIf(() -> ArchaicConfig.enablePhosphor && !Loader.isModLoaded(TargetedMod.CHUNKAPI.ModID()))
-            .addExcludedMod(TargetedMod.SUPERNOVA)
-            .addCommonMixins("lighting.base.MixinAnvilChunkLoaderBase")),
+            .addExcludedMod(TargetedMod.SUPERNOVA)),
     PHOSPHOR_FASTCRAFT(new ArchaicBuilder()
             .setPhase(Phase.EARLY)
             .setApplyIf(() -> ArchaicConfig.enablePhosphor)
             .addRequiredMod(TargetedMod.FASTCRAFT)
-            .addExcludedMod(TargetedMod.SUPERNOVA)
-            .addCommonMixins(
-                    "lighting.fastcraft.MixinChunk",
-                    "lighting.fastcraft.MixinChunkProviderServer",
-                    "lighting.fastcraft.MixinWorld")),
+            .addExcludedMod(TargetedMod.SUPERNOVA)),
     GREGTECH6(new ArchaicBuilder()
             .setPhase(Phase.LATE)
             .addRequiredMod(TargetedMod.GREGTECH6)
